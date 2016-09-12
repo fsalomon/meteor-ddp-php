@@ -49,21 +49,22 @@ class DDPClient
      */
     public function __construct($host, $port = 3000)
     {
-        $errno = 0;
-        $errstr = 'Error connecting to Meteor server';
-        if (!$this->sock = fsockopen($host, $port, $errno, $errstr, 10)) {
-            throw new \Exception('Error connecting to Meteor server');
-        }
+        $address = "{$host}:{$port}";
+
+        $this->sock = new socket\FSocketPipe();
+        $this->sock->Open($address);
+
         $this->sender = new DDPSender($this->sock);
-        $this->results = new \Threaded();
+        $this->results = [];
         $this->mongoAdapter = new MongoAdapter();
 
-        $handShakeMsg = WebSocketClient::handshakeMessage($host . ':' . $port);
+        $handShakeMsg = WebSocketClient::handshakeMessage($address);
         $this->listener = new DDPListener($this, $this->sender, $this->sock);
-        if (fwrite($this->sock, $handShakeMsg) === false) {
-            throw new \Exception('error:' . $errno . ':' . $errstr);
-        }
-        $this->listener->start();
+        $this->listener->Start();
+
+        $this->sock->Write($handShakeMsg);
+
+
         $this->currentId = 0;
         $this->methodMap = array();
         $this->asyncCallPool = new ThreadPool();
@@ -120,6 +121,8 @@ class DDPClient
         if (!$listener->isRunning()) {
             throw new \Exception('Internal error : Socket listener has stopped running');
         }
+        $listener->MicroRun();
+
         $result = null;
         if (array_key_exists($method, $this->methodMap)) {
             $id = $this->methodMap[$method];
@@ -154,13 +157,18 @@ class DDPClient
         $this->sender->sub($subId++, $name, $args);
     }
 
+    public function sender() {
+        return $this->sender;
+    }
+
     /**
      * Stop DDP communication and child thread(s). This must be called when the
      * DDP client is done talking to the server
      */
     public function stop()
     {
-        $this->listener->kill();
+        $this->sock->Stop();
+        $this->listener->Stop();
     }
 
 

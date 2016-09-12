@@ -1,7 +1,7 @@
 <?php
 namespace zyzo\MeteorDDP;
 
-class DDPSender extends \Threaded {
+class DDPSender {
 
     private $sock;
 
@@ -84,9 +84,8 @@ class DDPSender extends \Threaded {
 
         DDPClient::log('Sending ' . $msg . PHP_EOL);
         $msg = WebSocketClient::draft10Encode($msg, 'text', true);
-        if (!fwrite($this->sock, $msg)) {
-            throw new \Exception('Socket write error! ' . PHP_EOL);
-        }
+
+        $this->sock->Write($msg);
     }
 
 }

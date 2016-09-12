@@ -3,9 +3,8 @@ namespace zyzo\MeteorDDP;
 
 use zyzo\MeteorDDP\enum\FrameStatus;
 
-class DDPListener extends \Thread{
-
-    private $sock;
+class DDPListener {
+    private $pump;
     private $sender;
     private $wsClient;
 
@@ -17,18 +16,32 @@ class DDPListener extends \Thread{
      * @param $sock resource
      */
     public function __construct($client, $sender, $sock) {
+        if (class_exists("\Thread"))
+            $this->pump = new pump\PThreadsPump($sock);
+        else
+            $this->pump = new pump\BasePump($sock);
+
         $this->client = $client;
-        $this->sock = $sock;
         $this->sender = $sender;
         $this->wsClient = new WebSocketClient();
         $this->unparsedBytes = null;
     }
 
-    public function run() {
-        while (!feof($this->sock)) {
-            $data = fread($this->sock, 20000);
-            $this->process($data);
-        }
+    public function Start() {
+        $this->pump->Start();
+    }
+
+    public function Stop() {
+        $this->pump->Stop();
+    }
+
+    public function MicroRun() {
+      $data = $this->pump->MicroRun();
+      $this->process($data);
+    }
+
+    public function isRunning() {
+      return $this->pump->isRunning();
     }
 
     /**
