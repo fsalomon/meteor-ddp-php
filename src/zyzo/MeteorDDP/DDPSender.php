@@ -48,8 +48,8 @@ class DDPSender {
         $packet = [
             "msg" => "method",
             "method" => $method,
-            "id" => $id,
             "params" => $args,
+            "id" => $id,
         ];
 
         $this->send($packet);
