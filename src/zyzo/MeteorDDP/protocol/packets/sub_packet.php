@@ -3,7 +3,16 @@
 class sub_packet implements abstract_packet
 {
   // Check if filled data represent that packed
-  public function Detect($packed_data);
+  public function Detect($packed_data)
+  {
+    $events =
+    [
+      'added',
+      'changed',
+      'removed',
+    ];
+    return in_array($packed_data['msg'], $events);
+  }
 
   public function Encode($data=null)
   {
@@ -21,5 +30,8 @@ class sub_packet implements abstract_packet
   }
 
 
-  public function Decode($packed_data);
+  public function Decode($packed_data)
+  {
+    return $packed_data;
+  }
 }

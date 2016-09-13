@@ -2,8 +2,10 @@
 
 class connect_packet implements abstract_packet
 {
-  // Check if filled data represent that packed
-  public function Detect($packed_data);
+  public function Detect($packed_data)
+  {
+    return false;
+  }
 
   public function Encode($data)
   {
@@ -23,6 +25,8 @@ class connect_packet implements abstract_packet
     return $packet;
   }
 
-
-  public function Decode($packed_data);
+  public function Decode($packed_data)
+  {
+    abstract_packet::not_implemented(__CLASS__, __METHOD__);
+  }
 }

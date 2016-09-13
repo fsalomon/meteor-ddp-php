@@ -7,4 +7,9 @@ interface abstract_packet
 
   public function Encode($data);
   public function Decode($packed_data);
+
+  public static function not_implemented($packet, $method)
+  {
+    throw new \Exception("Packet {$packet} has not {$method} implementation");
+  }
 }

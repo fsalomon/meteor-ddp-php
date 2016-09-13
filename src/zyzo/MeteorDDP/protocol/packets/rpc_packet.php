@@ -2,8 +2,10 @@
 
 class rpc_packet implements abstract_packet
 {
-  // Check if filled data represent that packed
-  public function Detect($packed_data);
+  public function Detect($packed_data)
+  {
+    return $packed_data['msg'] == 'result';
+  }
 
   public function Encode($data=null)
   {
@@ -19,6 +21,8 @@ class rpc_packet implements abstract_packet
     return $packet;
   }
 
-
-  public function Decode($packed_data);
+  public function Decode($packed_data)
+  {
+    return $packed_data;
+  }
 }
