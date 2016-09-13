@@ -19,9 +19,10 @@ class reactor extends protocol/reader
     return $this->react->$type($value);
   }
 
-  public function add_component($type, $component)
+  public function add_component($type, $component, $id = null)
   {
-    $id = $this->get_commonent_id($type);
+    if (is_null($id))
+      $id = $this->get_commonent_id($type);
 
     $this->reactor[$type][$id] = $component;
 
@@ -34,5 +35,15 @@ class reactor extends protocol/reader
       $this->component_ids[$type] = 0;
 
     return $this->component_ids[$type];
+  }
+
+  public function get_component($type, $id)
+  {
+    return $this->reactor[$type][$id];
+  }
+
+  public function remove_component($type, $id)
+  {
+    unset($this->reactor[$type][$id]);
   }
 }

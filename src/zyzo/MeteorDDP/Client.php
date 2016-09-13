@@ -13,7 +13,7 @@ class Client extends Reactor
 
     parent::__construct($sock, $parcer);
     $this->herald = new herald($sock, $parcer);
-    $this->herald->set_reactor($this->reactor);
+    $this->herald->set_reactor($this);
 
     if (!is_null($address))
       $this->open($address);
