@@ -2,16 +2,22 @@
 
 require('socket/WebSocketPipe.php');
 
-class Client
+class Client extends Reactor
 {
-  private $pipe;
+  private $writer;
 
   public function __construct($address = null)
   {
-    $this->pipe = new socket/WebSocketPipe();
+    $sock = new socket/WebSocketPipe();
+    $parcer = parser::ConstructDefaultParser();
+
+    parent::__construct($sock, $parcer);
+    $this->writer = new socket/writer($sock, $parcer);
+
+
 
     if (!is_null($address))
-      $this->connect($address);
+      $this->open($address);
   }
 
   public function open($address)
@@ -22,13 +28,6 @@ class Client
   public function close()
   {
     $this->pipe->close();
-  }
-
-  private $react;
-
-  public function on($packet_type, $packet)
-  {
-    $this->react->$packet_type($packet);
   }
 
   public function get_result($id)
