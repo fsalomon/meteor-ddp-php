@@ -10,22 +10,6 @@ class DDPSender {
         $this->sock = $sock;
     }
 
-    public function connect($version, $supported = []) {
-        if (empty($supported)) {
-            $supported = [$supported];
-        }
-
-        $packet = [
-            "msg" => "connect",
-            "version" => (string)$version,
-            "support" => array_map(function ($element) {
-                return (string)$element;
-            }, $supported),
-        ];
-
-        $this->send($packet);
-    }
-
     public function ping() {
         $packet = [
             "msg" => "ping",
