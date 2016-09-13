@@ -4,7 +4,7 @@ require('socket/WebSocketPipe.php');
 
 class Client extends Reactor
 {
-  private $writer;
+  private $herald;
 
   public function __construct($address = null)
   {
@@ -12,9 +12,7 @@ class Client extends Reactor
     $parcer = parser::ConstructDefaultParser();
 
     parent::__construct($sock, $parcer);
-    $this->writer = new socket/writer($sock, $parcer);
-
-
+    $this->herald = new herald($sock, $parcer);
 
     if (!is_null($address))
       $this->open($address);
@@ -33,5 +31,10 @@ class Client extends Reactor
   public function get_result($id)
   {
 
+  }
+
+  public function __call($method, $args)
+  {
+    return call_user_func_array([$this->herald, $method], $args);
   }
 }

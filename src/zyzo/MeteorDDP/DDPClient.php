@@ -70,16 +70,7 @@ class DDPClient
         $this->asyncCallPool = new ThreadPool();
     }
 
-    /**
-     * This function creates a DDP connection on top of the WebSocket channel.
-     * This must be called before the client could invoke server's method.
-     * @param int $version
-     * @param array $supportedVersions
-     */
-    public function connect($version = 1, $supportedVersions = array(1))
-    {
-        $this->sender->connect($version, $supportedVersions);
-    }
+
 
     /**
      * Create a MongoDB connection with provided information. If this function is not
@@ -93,17 +84,7 @@ class DDPClient
         $this->mongoAdapter->connect($server, $options, $db);
     }
 
-    /**
-     * Synchronous Meteor.call. Use DDPClient::getResult to poll the return value
-     * @param $method
-     * @param $args
-     */
-    public function call($method, $args)
-    {
-        $this->sender->rpc($this->currentId, $method, $args);
-        $this->methodMap[$method] = $this->currentId;
-        $this->currentId++;
-    }
+
 
     /**
      * Return the result of the method which has been called.
@@ -148,14 +129,7 @@ class DDPClient
         $this->asyncCallPool->startCall($this, $method, $callback);
     }
 
-    /**
-     * @param $name
-     * @param array $args
-     */
-    public function subscribe($name, $args = array()) {
-        static $subId = 0;
-        $this->sender->sub($subId++, $name, $args);
-    }
+
 
     public function sender() {
         return $this->sender;
@@ -214,42 +188,4 @@ class DDPClient
                 break;
         }
     }
-
-    private function onPing($pingId)
-    {
-        $this->sender->pong($pingId);
-    }
-
-    private function onResult($message)
-    {
-        $this->results[$message->id] = $message->result;
-    }
-
-    private function onAdded($message)
-    {
-        $this->mongoAdapter->insertOrUpdate(
-            $message->collection,
-            $message->id,
-            isset($message->fields) ? $message->fields : null);
-    }
-
-    private function onChanged($message)
-    {
-        $this->mongoAdapter->update(
-            $message->collection,
-            $message->id,
-            isset($message->fields) ? $message->fields : null,
-            isset($message->cleared) ? $message->cleared : null);
-    }
-
-    private function onRemoved($message)
-    {
-        $this->mongoAdapter->remove($message->collection, $message->id);
-    }
-
-    private function onReady($message)
-    {
-        // stub
-    }
-
 }
