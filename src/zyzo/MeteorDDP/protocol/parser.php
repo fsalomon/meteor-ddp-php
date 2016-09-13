@@ -1,10 +1,11 @@
 <?php
 
-require_once('connect_packet.php');
-require_once('ping_packet.php');
-require_once('pong_packet.php');
-require_once('rpc_packet.php');
-require_once('sub_packet.php');
+require_once('packets/connect_packet.php');
+require_once('packets/ping_packet.php');
+require_once('packets/pong_packet.php');
+require_once('packets/rpc_packet.php');
+require_once('packets/sub_packet.php');
+require_once('parsed_packet.php');
 
 class parser
 {
@@ -16,7 +17,15 @@ class parser
   {
   }
 
+  public function Encode($type, $data, $fatal = true)
+  {
+  }
+
   public function DecodePacket($packed_data)
+  {
+  }
+
+  public function Decode($type, $data, $fatal = true)
   {
   }
 
