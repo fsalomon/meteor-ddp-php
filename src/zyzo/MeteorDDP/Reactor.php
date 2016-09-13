@@ -5,20 +5,6 @@ class reactor extends protocol/reader
   protected $reactor = [];
   private $component_ids = [];
 
-  public function react()
-  {
-    $packet = $this->Read();
-    if ($packet === null)
-      return;
-
-    $this->react->on($packet->type, $packet->value);
-  }
-
-  public function on($type, $value)
-  {
-    return $this->react->$type($value);
-  }
-
   public function add_component($type, $component, $id = null)
   {
     if (is_null($id))
