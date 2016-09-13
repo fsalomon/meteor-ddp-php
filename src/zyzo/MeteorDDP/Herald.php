@@ -2,6 +2,13 @@
 
 class herald extends socket/writer
 {
+  private $reactor;
+
+  public function set_reactor(&$reactor)
+  {
+    $this->reactor = &$reactor;
+  }
+
   /**
    * This function creates a DDP connection on top of the WebSocket channel.
    * This must be called before the client could invoke server's method.
@@ -10,7 +17,13 @@ class herald extends socket/writer
    */
   public function connect($version = 1, $supportedVersions = array(1))
   {
-      $this->sender->connect($version, $supportedVersions);
+    $packet =
+    [
+      'version' => $version,
+      'supportedVersions' => $supportedVersions,
+    ];
+
+    $this->Write('connect', $packet);
   }
 
   /**
@@ -18,19 +31,43 @@ class herald extends socket/writer
    * @param $method
    * @param $args
    */
-  public function call($method, $args)
+  public function call($method, $args, $cb = null)
   {
-      $this->sender->rpc($this->currentId, $method, $args);
-      $this->methodMap[$method] = $this->currentId;
-      $this->currentId++;
+    $component =
+    [
+      'cb' => $cb,
+    ];
+
+    $id = $this->reactor->add_component('rpc', $component);
+
+    $packet =
+    [
+      'method' => $method,
+      'args' => $args,
+    ];
+
+    $this->Write('rpc', $packet);
   }
 
   /**
    * @param $name
    * @param array $args
    */
-  public function subscribe($name, $args = array()) {
-      static $subId = 0;
-      $this->sender->sub($subId++, $name, $args);
+  public function subscribe($name, $args = array(), $cb = null) {
+    $component =
+    [
+      'cb' => $cb,
+    ];
+
+    $id = $this->reactor->add_component('sub', $component);
+
+    $packet =
+    [
+      'name' => $name,
+      'args' => $args,
+      'id' => $id,
+    ];
+
+    $this->Write('sub', $packet);
   }
 }

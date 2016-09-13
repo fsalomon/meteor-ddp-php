@@ -13,6 +13,7 @@ class Client extends Reactor
 
     parent::__construct($sock, $parcer);
     $this->herald = new herald($sock, $parcer);
+    $this->herald->set_reactor($this->reactor);
 
     if (!is_null($address))
       $this->open($address);
@@ -20,12 +21,12 @@ class Client extends Reactor
 
   public function open($address)
   {
-    $this->pipe->open($address);
+    $this->sock->open($address);
   }
 
   public function close()
   {
-    $this->pipe->close();
+    $this->sock->close();
   }
 
   public function get_result($id)

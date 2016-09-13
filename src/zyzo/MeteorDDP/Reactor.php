@@ -2,6 +2,8 @@
 
 class reactor extends protocol/reader
 {
+  protected $reactor = [];
+
   public function react()
   {
     $packet = $this->Read();
