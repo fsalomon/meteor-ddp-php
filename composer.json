@@ -21,5 +21,8 @@
     "type": "vcs",
     "url": "https://github.com/zyzo/meteor-ddp-php"
   }
-  ]
+  ],
+  "require": {
+    "textalk/websocket": "~1.2"
+  }
 }
