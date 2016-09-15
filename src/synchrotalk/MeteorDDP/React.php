@@ -38,6 +38,8 @@ class React
       'rpc' => 'onResult',
       'collection' => 'onCollection',
       'initial' => 'ignore',
+      'connect' => 'ignore',
+      'sub' => 'echondie',
     ];
 
     foreach ($actions as $event => $method)
@@ -88,13 +90,24 @@ class React
     $this->remove_component('collection', $message->id);
   }
 
-  private function onReady($message)
+  private function onCollection($message)
   {
-    // stub
+    $this->echondie($message);
   }
 
   private function ignore($message)
   {
+  }
+
+  private function echo($message)
+  {
+    var_dump($message);
+  }
+
+  private function echondie($message)
+  {
+    $this->echo($message);
+    die();
   }
 
 }

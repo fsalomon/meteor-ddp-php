@@ -88,6 +88,7 @@ class parser
       'rpc' => 'rpc_packet',
       'sub' => 'sub_packet',
       'initial' => 'initial_packet',
+      'collection' => 'collection_packet',
     ];
 
     foreach ($ddp_packets as $name => $classname)

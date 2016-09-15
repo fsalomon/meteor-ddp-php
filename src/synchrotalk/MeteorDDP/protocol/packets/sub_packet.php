@@ -3,17 +3,9 @@ namespace synchrotalk\MeteorDDP\protocol\packets;
 
 class sub_packet extends abstract_packet
 {
-  // Check if filled data represent that packed
   public function Detect($packed_data)
   {
-    $events =
-    [
-      'added',
-      'changed',
-      'removed',
-    ];
-
-    return in_array(@$packed_data['msg'], $events);
+    return @$packed_data['msg'] == 'sub';
   }
 
   public function Encode($data=null)
