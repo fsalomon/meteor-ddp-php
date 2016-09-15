@@ -11,6 +11,10 @@ class reactor extends protocol\reader
     if (is_null($id))
       $id = $this->get_commonent_id($type);
 
+    Client::Log('reactor')->addNotice("Adding component");
+    Client::Log('reactor')->addInfo("$type $id");
+    Client::Log('reactor')->addDebug($component);
+
     $this->reactor[$type][$id] = $component;
 
     return $id;
@@ -31,6 +35,9 @@ class reactor extends protocol\reader
 
   public function remove_component($type, $id)
   {
+    Client::Log('reactor')->addNotice('Removing component');
+    Client::Log('reactor')->addInfo("$type $id");
+
     unset($this->reactor[$type][$id]);
   }
 }

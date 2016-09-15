@@ -6,6 +6,21 @@ require('socket/WebSocketPipe.php');
 
 class Client extends Reactor
 {
+  public static $default_logger = null;
+  public static $log = [];
+
+  public static function Log($system)
+  {
+    if (isset(self::$log[$system]))
+      return self::$log[$system];
+
+    if (is_null(self::$default_logger))
+      self::$default_logger = new \Monolog\Logger("noname");
+
+    return self::$log[$system]
+      = self::$default_logger->withName("DDP_".$system);
+  }
+
   private $herald;
 
   public function __construct($address = null)

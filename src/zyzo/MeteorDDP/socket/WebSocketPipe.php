@@ -23,11 +23,18 @@ class WebSocketPipe extends AbstractSocketPipe
     if (!$this->IsValid())
       return;
 
+    Client::Log('websocket')->addInfo('Sending', $data);
+
     $this->sock->send($data);
   }
 
   public function Read($chunk_size = AbstractSocketPipe::CHUNK_SIZE) {
-    return $this->sock->receive(true);
+    $received =  $this->sock->receive(true);
+
+    if (!is_null($received))
+      Client::Log('WebSocket')->addInfo('Receiving', $received);
+
+    return $received;
   }
 
   public function IsValid() {

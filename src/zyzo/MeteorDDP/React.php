@@ -13,13 +13,17 @@ class React
 
   public function addReaction($event, $method)
   {
+    Client::Log('react')->addNotice("Register $event handler");
     $this->known_events[$event] = $method;
   }
 
   private function getReaction($event)
   {
     if (!isset($this->known_events[$event]))
+    {
+      Client::Log('react')->addCritical("Unknown $event handler");
       throw new \Exception("Internal issue : cant react to unknown $event event");
+    }
 
     return $this->known_events[$event];
   }
@@ -44,6 +48,8 @@ class React
 
   public function __call($event, $arguments)
   {
+    Client::Log('react')->addInfo("Reacting on $event");
+
     $method = $this->getReaction($event);
     return call_user_func_array($method, $arguments);
   }
@@ -66,16 +72,19 @@ class React
 
   private function onAdded($message)
   {
+    Client::Log('react')->addDebug("Added", $message);
     $this->add_component('collection', $message, $message->id);
   }
 
   private function onChanged($message)
   {
+    Client::Log('react')->addDebug("Changed", $message);
     $this->add_component('collection', $message, $message->id);
   }
 
   private function onRemoved($message)
   {
+    Client::Log('react')->addDebug("Removed", $message);
     $this->remove_component('collection', $message->id);
   }
 
