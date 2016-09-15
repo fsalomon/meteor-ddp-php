@@ -17,8 +17,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "zyzo\\MeteorDDP\\": "src/zyzo/MeteorDDP/",
-      "synchrotalk\\MeteorDDP\\": "src/zyzo/MeteorDDP/",
+      "zyzo\\MeteorDDP\\": "src/zyzo/MeteorDDP/"
     }
   },
   "require": {
