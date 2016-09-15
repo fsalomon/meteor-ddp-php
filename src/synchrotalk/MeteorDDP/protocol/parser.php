@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP\protocol;
+namespace synchrotalk\MeteorDDP\protocol;
 
 class parser
 {
@@ -92,7 +92,7 @@ class parser
 
     foreach ($ddp_packets as $name => $classname)
     {
-      $class = "\\zyzo\\MeteorDDP\\protocol\\packets\\$classname";
+      $class = "\\synchrotalk\\MeteorDDP\\protocol\\packets\\$classname";
       $parcer->RegisterPacket($name, new $class);
     }
 

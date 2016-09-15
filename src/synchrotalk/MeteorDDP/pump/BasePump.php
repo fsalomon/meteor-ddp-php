@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP\pump;
+namespace synchrotalk\MeteorDDP\pump;
 
 class BasePump {
     private $sock;

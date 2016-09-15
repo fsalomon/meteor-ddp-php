@@ -7,8 +7,8 @@
   "license" : "MIT Licence",
   "authors": [
     {
-      "name" : "zyzo",
-      "homepage" : "https://github.com/zyzo"
+      "name" : "synchrotalk",
+      "homepage" : "https://github.com/synchrotalk"
     },
     {
       "name" : "Kirill Berezin",
@@ -17,7 +17,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "zyzo\\MeteorDDP\\": "src/zyzo/MeteorDDP/"
+      "synchrotalk\\MeteorDDP\\": "src/synchrotalk/MeteorDDP/"
     }
   },
   "require": {

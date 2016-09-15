@@ -1,7 +1,7 @@
 <?php
-namespace zyzo\MeteorDDP\tests;
+namespace synchrotalk\MeteorDDP\tests;
 require 'vendor/autoload.php';
-use zyzo\MeteorDDP\DDPClient;
+use synchrotalk\MeteorDDP\DDPClient;
 DDPClient::enableLog();
 $client = new DDPClient('localhost', 3000);
 $client->connect();

@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP\asynccall;
+namespace synchrotalk\MeteorDDP\asynccall;
 
 class ResultPolling extends \Thread {
 

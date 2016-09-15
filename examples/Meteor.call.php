@@ -1,6 +1,6 @@
 <?php
-namespace zyzo\MeteorDDP\examples;
-use zyzo\MeteorDDP\DDPClient;
+namespace synchrotalk\MeteorDDP\examples;
+use synchrotalk\MeteorDDP\DDPClient;
 require 'vendor/autoload.php';
 
 $client = new DDPClient('localhost', 3000);

@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP;
+namespace synchrotalk\MeteorDDP;
 
 class herald extends protocol\writer
 {

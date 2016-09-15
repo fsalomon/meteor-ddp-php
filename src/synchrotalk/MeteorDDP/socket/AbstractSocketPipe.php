@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP\socket;
+namespace synchrotalk\MeteorDDP\socket;
 
 abstract class AbstractSocketPipe
 {

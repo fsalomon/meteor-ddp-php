@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: zyzo
+ * User: synchrotalk
  * Date: 30/04/15
  * Time: 19:11
  */
 
-namespace zyzo\MeteorDDP\asynccall;
+namespace synchrotalk\MeteorDDP\asynccall;
 
 
 class ThreadPool {

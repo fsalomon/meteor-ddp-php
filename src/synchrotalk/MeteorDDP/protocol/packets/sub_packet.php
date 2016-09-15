@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP\protocol\packets;
+namespace synchrotalk\MeteorDDP\protocol\packets;
 
 class sub_packet extends abstract_packet
 {

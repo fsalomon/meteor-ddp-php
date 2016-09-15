@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP\protocol;
+namespace synchrotalk\MeteorDDP\protocol;
 
 class io_interface
 {

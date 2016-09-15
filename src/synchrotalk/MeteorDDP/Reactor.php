@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP;
+namespace synchrotalk\MeteorDDP;
 
 class reactor extends protocol\reader
 {

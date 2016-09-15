@@ -1,5 +1,5 @@
 <?php
-namespace zyzo\MeteorDDP;
+namespace synchrotalk\MeteorDDP;
 
 require('vendor/autoload.php');
 require('socket/WebSocketPipe.php');

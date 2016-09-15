@@ -1,12 +1,12 @@
 <?php
-namespace zyzo\MeteorDDP\pump;
+namespace synchrotalk\MeteorDDP\pump;
 
 class PThreadsPump extends \Thread {
   private $pump;
   private $stored_data = [];
 
   public function __construct() {
-    $reflection = new \ReflectionClass("zyzo\MeteorDDP\pump\BasePump");
+    $reflection = new \ReflectionClass("synchrotalk\MeteorDDP\pump\BasePump");
     $this->pump = $reflection->newInstanceArgs(func_get_args());
   }
 

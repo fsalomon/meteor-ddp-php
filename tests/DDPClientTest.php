@@ -1,7 +1,7 @@
 <?php
-namespace zyzo\MeteorDDP\tests;
+namespace synchrotalk\MeteorDDP\tests;
 require 'vendor/autoload.php';
-use zyzo\MeteorDDP\DDPClient;
+use synchrotalk\MeteorDDP\DDPClient;
 
 $client = new DDPClient('localhost', 3000);
 $client->connect();
@@ -19,7 +19,7 @@ $client->asyncCall("foo", array(1), function($a) {
 });
 echo 'Do some work...' . PHP_EOL;
 
-$client->asyncCall("foo", array(1), 'zyzo\MeteorDDP\tests\resultHandler');
+$client->asyncCall("foo", array(1), 'synchrotalk\MeteorDDP\tests\resultHandler');
 echo 'Do some work...' . PHP_EOL;
 
 $client->stop();

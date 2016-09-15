@@ -1,6 +1,6 @@
 <?php
 require 'vendor/autoload.php';
-use zyzo\MeteorDDP\DDPClient;
+use synchrotalk\MeteorDDP\DDPClient;
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 DDPClient::enableLog();
