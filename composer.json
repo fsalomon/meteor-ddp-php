@@ -1,27 +1,27 @@
 {
-  "name" : "zyzo/meteor-ddp-php",
+  "name" : "synchrotalk/meteor-ddp-php",
   "description" : "DDP client for PHP",
   "keywords" : ["DDP", "ddpclient", "meteor", "php"],
   "type" : "library",
-  "homepage" : "https://github.com/zyzo/meteor-ddp-php",
+  "homepage" : "https://github.com/synchrotalk/meteor-ddp-php",
   "license" : "MIT Licence",
   "authors": [
     {
       "name" : "zyzo",
       "homepage" : "https://github.com/zyzo"
+    },
+    {
+      "name" : "Kirill Berezin",
+      "homepage" : "https://github.com/enelar"
     }
   ],
   "autoload": {
     "psr-4": {
-      "zyzo\\MeteorDDP\\": "src/zyzo/MeteorDDP/"
+      "zyzo\\MeteorDDP\\": "src/zyzo/MeteorDDP/",
+      "synchrotalk\\MeteorDDP\\": "src/synchrotalk/MeteorDDP/",
     }
   },
   "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/synchrotalk/meteor-ddp-php"
-    }
-    ,
     {
       "type": "vcs",
       "url": "https://github.com/synchrotalk/meteor-ddp-php"
