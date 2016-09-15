@@ -48,7 +48,7 @@ class React
 
   public function __call($event, $arguments)
   {
-    Client::Log('react')->addInfo("Reacting on $event");
+    Client::Log('react')->addDebug("Reacting on $event");
 
     $method = $this->getReaction($event);
     return call_user_func_array($method, $arguments);

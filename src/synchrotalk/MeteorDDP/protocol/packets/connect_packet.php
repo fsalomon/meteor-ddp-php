@@ -28,8 +28,6 @@ class connect_packet extends abstract_packet
 
   public function Decode($packed_data)
   {
-    var_dump($packed_data);
-    die();
-    abstract_packet::not_implemented(__CLASS__, __METHOD__);
+    return $packed_data;
   }
 }

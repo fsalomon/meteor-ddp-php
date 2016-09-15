@@ -72,6 +72,7 @@ class Client extends Reactor
     if ($packet === null)
       return;
 
+    Client::Log("client")->addInfo("Received {$packet->type} event");
     $this->on($packet->type, $packet->value);
   }
 
