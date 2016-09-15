@@ -72,19 +72,19 @@ class React
 
   private function onAdded($message)
   {
-    Client::Log('react')->addDebug("Added", $message);
+    Client::Log('react')->addDebug("Added");
     $this->add_component('collection', $message, $message->id);
   }
 
   private function onChanged($message)
   {
-    Client::Log('react')->addDebug("Changed", $message);
+    Client::Log('react')->addDebug("Changed");
     $this->add_component('collection', $message, $message->id);
   }
 
   private function onRemoved($message)
   {
-    Client::Log('react')->addDebug("Removed", $message);
+    Client::Log('react')->addDebug("Removed");
     $this->remove_component('collection', $message->id);
   }
 

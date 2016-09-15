@@ -1,5 +1,6 @@
 <?php
 namespace synchrotalk\MeteorDDP\socket;
+use synchrotalk\MeteorDDP\Client as Client;
 
 require('AbstractSocketPipe.php');
 
@@ -32,7 +33,7 @@ class WebSocketPipe extends AbstractSocketPipe
     $received =  $this->sock->receive(true);
 
     if (!is_null($received))
-      Client::Log('WebSocket')->addInfo('Receiving', $received);
+      Client::Log('WebSocket')->addInfo('Receiving', [$received]);
 
     return $received;
   }

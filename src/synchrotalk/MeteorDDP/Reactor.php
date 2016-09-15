@@ -13,7 +13,6 @@ class reactor extends protocol\reader
 
     Client::Log('reactor')->addNotice("Adding component");
     Client::Log('reactor')->addInfo("$type $id");
-    Client::Log('reactor')->addDebug($component);
 
     $this->reactor[$type][$id] = $component;
 
