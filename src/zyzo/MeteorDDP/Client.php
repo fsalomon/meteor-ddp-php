@@ -57,14 +57,14 @@ class Client extends Reactor
     if ($packet === null)
       return;
 
-    if (is_null($this->react))
-      $this->react = React::constructDefaultReact($this);
-
-    $this->react->on($packet->type, $packet->value);
+    $this->on($packet->type, $packet->value);
   }
 
   private function on($type, $value)
   {
+    if (is_null($this->react))
+      $this->react = React::constructDefaultReact($this);
+
     return $this->react->$type($value);
   }
 }

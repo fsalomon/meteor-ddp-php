@@ -33,7 +33,11 @@ class React
       'ping' => 'onPing',
       'rpc' => 'onResult',
       'collection' => 'onCollection',
+      'initial' => 'ignore',
     ];
+
+    foreach ($actions as $event => $method)
+      $react->addReaction($event, [$react, $method]);
 
     return $react;
   }
@@ -78,6 +82,10 @@ class React
   private function onReady($message)
   {
     // stub
+  }
+
+  private function ignore($message)
+  {
   }
 
 }
