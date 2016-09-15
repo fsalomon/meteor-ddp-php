@@ -10,8 +10,35 @@ class React
     $this->client = $client;
   }
 
+  public function addReaction($event, $method)
+  {
+    $this->known_events[$event] = $method;
+  }
+
+  private function getReaction($event)
+  {
+    if (!isset($this->known_events[$event]))
+      throw new \Exception("Internal issue : cant react to unknown $event event");
+
+    return $this->known_events[$event];
+  }
+
+  public static function constructDefaultReact(&$client)
+  {
+    $react = new React($client);
+
+    $actions =
+    [
+      'ping' => 'onPing',
+      'rpc' => 'onResult',
+      'collection' => 'onCollection',
+    ];
+  }
+
   public function __call($event, $arguments)
   {
+    $method = $this->getReaction($event);
+    return call_user_func_array($method, $arguments);
   }
 
   private function onPing($pingId)
@@ -47,7 +74,7 @@ class React
 
   private function onReady($message)
   {
-      // stub
+    // stub
   }
 
 }

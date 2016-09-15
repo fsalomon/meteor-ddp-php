@@ -56,7 +56,7 @@ class Client extends Reactor
       return;
 
     if (is_null($this->react))
-      $this->react = new react($this);
+      $this->react = new react::constructDefaultReact($this);
 
     $this->react->on($packet->type, $packet->value);
   }
