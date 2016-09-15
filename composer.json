@@ -18,16 +18,9 @@
   "autoload": {
     "psr-4": {
       "zyzo\\MeteorDDP\\": "src/zyzo/MeteorDDP/",
-      "synchrotalk\\MeteorDDP\\": "src/synchrotalk/MeteorDDP/",
+      "synchrotalk\\MeteorDDP\\": "src/zyzo/MeteorDDP/",
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/synchrotalk/meteor-ddp-php"
-    }
-    ,
-  ],
   "require": {
     "textalk/websocket": "~1.2",
     "monolog/monolog": "~1.2"
