@@ -1,4 +1,5 @@
 <?php
+namespace zyzo\MeteorDDP\protocol;
 
 class reader extends io_interface
 {
@@ -10,8 +11,8 @@ class reader extends io_interface
     if ($packet == null)
       return null;
 
-    $packed = json_decode($packet);
-    $parsed_packet = $this->parcer->DecodePacket($packed);
+    $packed = json_decode($packet, true);
+    $parsed_packet = $this->parser->DecodePacket($packed);
 
     return $parsed_packet;
   }

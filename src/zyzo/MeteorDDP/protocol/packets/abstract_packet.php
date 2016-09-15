@@ -1,15 +1,16 @@
 <?php
+namespace zyzo\MeteorDDP\protocol\packets;
 
-interface abstract_packet
+abstract class abstract_packet
 {
   // Check if filled data represent that packed
-  public function Detect($packed_data);
+  abstract public function Detect($packed_data);
 
-  public function Encode($data);
-  public function Decode($packed_data);
+  abstract public function Encode($data);
+  abstract public function Decode($packed_data);
 
   public static function not_implemented($packet, $method)
   {
-    throw new \Exception("Packet {$packet} has not {$method} implementation");
+    throw new \Exception("Packet {$packet} has no {$method} implementation");
   }
 }

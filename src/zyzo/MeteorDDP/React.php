@@ -1,4 +1,5 @@
 <?php
+namespace zyzo\MeteorDDP;
 
 class React
 {
@@ -33,6 +34,8 @@ class React
       'rpc' => 'onResult',
       'collection' => 'onCollection',
     ];
+
+    return $react;
   }
 
   public function __call($event, $arguments)

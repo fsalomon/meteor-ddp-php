@@ -1,6 +1,7 @@
 <?php
+namespace zyzo\MeteorDDP;
 
-class herald extends socket/writer
+class herald extends protocol\writer
 {
   private $reactor;
 
@@ -20,7 +21,7 @@ class herald extends socket/writer
     $packet =
     [
       'version' => $version,
-      'supportedVersions' => $supportedVersions,
+      'supported' => $supportedVersions,
     ];
 
     $this->Write('connect', $packet);
@@ -44,6 +45,7 @@ class herald extends socket/writer
     [
       'method' => $method,
       'args' => $args,
+      'id' => $id,
     ];
 
     $this->Write('rpc', $packet);

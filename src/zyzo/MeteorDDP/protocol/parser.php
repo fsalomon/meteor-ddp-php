@@ -1,12 +1,5 @@
 <?php
-
-require_once('packets/abstract_packet.php');
-require_once('packets/connect_packet.php');
-require_once('packets/ping_packet.php');
-require_once('packets/pong_packet.php');
-require_once('packets/rpc_packet.php');
-require_once('packets/sub_packet.php');
-require_once('parsed_packet.php');
+namespace zyzo\MeteorDDP\protocol;
 
 class parser
 {
@@ -34,7 +27,7 @@ class parser
     $encoder = $this->GetEncoder($type);
     $result = $encoder->encode($data);
 
-    if (!is_null($result) && $fatal)
+    if (is_null($result) && $fatal)
       throw new \Exception("Internal issue : Unable to encode $type data");
 
     return $result;
@@ -44,9 +37,14 @@ class parser
   {
     foreach (array_keys($this->known_packets) as $type)
     {
-      $result = $this->Decode($type, $data, false);
-      if (!is_null($result))
-        return $result;
+      $result = $this->Decode($type, $packed_data, false);
+      if (is_null($result))
+        continue;
+
+      $parsed_packet = new parsed_packet();
+      $parsed_packet->type = $type;
+      $parsed_packet->value = $result;
+      return $parsed_packet;
     }
 
     throw new \Exception("Internal issue : Unsupported packet type");
@@ -56,12 +54,15 @@ class parser
   {
     $encoder = $this->GetEncoder($type);
 
-    if (!$encoder->detect($data) && $fatal)
-      throw new \Exception("Internal issue : Decoder mismatch on $type");
+    if (!$encoder->detect($data))
+      if (!$fatal)
+        return null;
+      else
+        throw new \Exception("Internal issue : Decoder mismatch on $type");
 
     $result = $encoder->decode($data);
 
-    if (!is_null($result) && $fatal)
+    if (is_null($result) && $fatal)
       throw new \Exception("Internal issue : Unable to dencode $type data");
 
     return $result;
@@ -77,7 +78,7 @@ class parser
 
   public static function ConstructDefaultParser()
   {
-    $parcer = new parcer();
+    $parcer = new parser();
 
     $ddp_packets =
     [
@@ -86,10 +87,14 @@ class parser
       'pong' => 'pong_packet',
       'rpc' => 'rpc_packet',
       'sub' => 'sub_packet',
+      'initial' => 'initial_packet',
     ];
 
-    foreach ($ddp_packets as $name => $class)
-      $parcer->RegisterPacket($name, new \protocol\packets\$class);
+    foreach ($ddp_packets as $name => $classname)
+    {
+      $class = "\\zyzo\\MeteorDDP\\protocol\\packets\\$classname";
+      $parcer->RegisterPacket($name, new $class);
+    }
 
     return $parcer;
   }

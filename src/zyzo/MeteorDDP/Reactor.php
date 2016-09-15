@@ -1,6 +1,7 @@
 <?php
+namespace zyzo\MeteorDDP;
 
-class reactor extends protocol/reader
+class reactor extends protocol\reader
 {
   protected $reactor = [];
   private $component_ids = [];

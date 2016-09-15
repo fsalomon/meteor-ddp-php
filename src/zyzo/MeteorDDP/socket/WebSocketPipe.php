@@ -8,7 +8,7 @@ class WebSocketPipe extends AbstractSocketPipe
   private $sock;
 
   public function open($address) {
-    $this->sock = new WebSocket\Client($address);
+    $this->sock = new \WebSocket\Client($address);
   }
 
   public function Close() {
@@ -27,14 +27,14 @@ class WebSocketPipe extends AbstractSocketPipe
   }
 
   public function Read($chunk_size = AbstractSocketPipe::CHUNK_SIZE) {
-    return $this->sock->read(true);
+    return $this->sock->receive(true);
   }
 
   public function IsValid() {
     if ($this->IsClosed())
       return false;
 
-    return $this->isConnected();
+    return $this->sock->isConnected();
   }
 
   public function IsClosed() {

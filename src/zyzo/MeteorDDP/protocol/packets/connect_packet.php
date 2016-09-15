@@ -1,10 +1,11 @@
 <?php
+namespace zyzo\MeteorDDP\protocol\packets;
 
-class connect_packet implements abstract_packet
+class connect_packet extends abstract_packet
 {
   public function Detect($packed_data)
   {
-    return false;
+    return @$packed_data['msg'] == 'connected';
   }
 
   public function Encode($data)
@@ -27,6 +28,8 @@ class connect_packet implements abstract_packet
 
   public function Decode($packed_data)
   {
+    var_dump($packed_data);
+    die();
     abstract_packet::not_implemented(__CLASS__, __METHOD__);
   }
 }

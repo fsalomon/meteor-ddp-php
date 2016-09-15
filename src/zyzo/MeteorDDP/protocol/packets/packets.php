@@ -1,4 +1,5 @@
 <?php
+namespace zyzo\MeteorDDP\protocol\packets;
 
 require_once('connect_packet.php');
 require_once('ping_packet.php');

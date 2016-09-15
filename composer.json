@@ -17,12 +17,21 @@
     }
   },
   "repositories": [
-  {
-    "type": "vcs",
-    "url": "https://github.com/zyzo/meteor-ddp-php"
-  }
+    {
+      "type": "vcs",
+      "url": "https://github.com/synchrotalk/meteor-ddp-php"
+    }
+    ,
+    {
+      "type": "vcs",
+      "url": "https://github.com/synchrotalk/meteor-ddp-php"
+    }
+    ,
   ],
   "require": {
     "textalk/websocket": "~1.2"
+  },
+  "require-dev": {
+    "synchrotalk/websocket": "dev-master"
   }
 }

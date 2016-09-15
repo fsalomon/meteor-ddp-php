@@ -1,6 +1,7 @@
 <?php
+namespace zyzo\MeteorDDP\protocol\packets;
 
-class sub_packet implements abstract_packet
+class sub_packet extends abstract_packet
 {
   // Check if filled data represent that packed
   public function Detect($packed_data)
@@ -11,7 +12,8 @@ class sub_packet implements abstract_packet
       'changed',
       'removed',
     ];
-    return in_array($packed_data['msg'], $events);
+
+    return in_array(@$packed_data['msg'], $events);
   }
 
   public function Encode($data=null)

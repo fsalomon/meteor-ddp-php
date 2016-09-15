@@ -1,10 +1,11 @@
 <?php
+namespace zyzo\MeteorDDP\protocol\packets;
 
-class pong_packet implements abstract_packet
+class pong_packet extends abstract_packet
 {
   public function Detect($packed_data)
   {
-    return $packed_data['msg'] == 'pong';
+    return @$packed_data['msg'] == 'pong';
   }
 
 
@@ -12,7 +13,7 @@ class pong_packet implements abstract_packet
   {
     $packet =
     [
-        "msg" => "pong",
+      "msg" => "pong",
     ];
 
     if ($data !== null)

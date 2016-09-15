@@ -1,5 +1,7 @@
 <?php
+namespace zyzo\MeteorDDP;
 
+require('vendor/autoload.php');
 require('socket/WebSocketPipe.php');
 
 class Client extends Reactor
@@ -8,11 +10,11 @@ class Client extends Reactor
 
   public function __construct($address = null)
   {
-    $sock = new socket/WebSocketPipe();
-    $parcer = parser::ConstructDefaultParser();
+    $sock = new socket\WebSocketPipe();
+    $parser = protocol\parser::ConstructDefaultParser();
 
-    parent::__construct($sock, $parcer);
-    $this->herald = new herald($sock, $parcer);
+    parent::__construct($sock, $parser);
+    $this->herald = new Herald($sock, $parser);
     $this->herald->set_reactor($this);
 
     if (!is_null($address))
@@ -35,7 +37,7 @@ class Client extends Reactor
 
     $result = $this->get_component('result', $id);
 
-    if (!is_null($result)
+    if (!is_null($result))
       $this->remove_component('result', $id);
 
     return $result;
@@ -56,7 +58,7 @@ class Client extends Reactor
       return;
 
     if (is_null($this->react))
-      $this->react = new react::constructDefaultReact($this);
+      $this->react = React::constructDefaultReact($this);
 
     $this->react->on($packet->type, $packet->value);
   }
