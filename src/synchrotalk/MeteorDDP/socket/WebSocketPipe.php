@@ -24,13 +24,19 @@ class WebSocketPipe extends AbstractSocketPipe
     if (!$this->IsValid())
       return;
 
-    Client::Log('websocket')->addInfo('Sending', $data);
+    Client::Log('websocket')->addInfo('Sending', [$data]);
 
     $this->sock->send($data);
   }
 
   public function Read($chunk_size = AbstractSocketPipe::CHUNK_SIZE) {
-    $received =  $this->sock->receive(true);
+    try
+    {
+      $received =  $this->sock->receive(true);
+    } catch (\Exception $e)
+    {
+      die($this->IsClosed());
+    }
 
     if (!is_null($received))
       Client::Log('WebSocket')->addInfo('Receiving', [$received]);
@@ -42,7 +48,8 @@ class WebSocketPipe extends AbstractSocketPipe
     if ($this->IsClosed())
       return false;
 
-    return $this->sock->isConnected();
+    // Because WebSocket itself never flag on Exceptional connection
+    return true;
   }
 
   public function IsClosed() {

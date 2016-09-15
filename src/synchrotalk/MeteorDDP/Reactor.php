@@ -24,7 +24,7 @@ class reactor extends protocol\reader
     if (!isset($this->component_ids[$type]))
       $this->component_ids[$type] = 0;
 
-    return $this->component_ids[$type];
+    return $this->component_ids[$type]++;
   }
 
   public function get_component($type, $id)
