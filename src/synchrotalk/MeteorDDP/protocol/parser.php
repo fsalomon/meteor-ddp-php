@@ -47,6 +47,7 @@ class parser
       return $parsed_packet;
     }
 
+    \synchrotalk\MeteorDDP\Client::Log('parser')->addError('Unable to decode packet', [$packed_data]);
     throw new \Exception("Internal issue : Unsupported packet type");
   }
 
@@ -89,6 +90,9 @@ class parser
       'sub' => 'sub_packet',
       'initial' => 'initial_packet',
       'collection' => 'collection_packet',
+
+      // Out of protocol
+      'unsupported' => 'unsupported_packet',
     ];
 
     foreach ($ddp_packets as $name => $classname)

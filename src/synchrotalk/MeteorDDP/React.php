@@ -40,6 +40,7 @@ class React
       'initial' => 'ignore',
       'connect' => 'ignore',
       'sub' => 'echondie',
+      'unsupported' => 'echondie',
     ];
 
     foreach ($actions as $event => $method)
@@ -63,36 +64,55 @@ class React
 
   private function onResult($message)
   {
-    $component = $this->get_component('rpc', $message->id);
-    $this->remove_component('rpc', $message->id);
+    $component = $this->get_component('rpc', $message['id']);
+    $this->remove_component('rpc', $message['id']);
 
     if (is_callable($component['cb']))
       return $component['cb']($message);
 
-    $this->add_component('result', $message, $message->id);
+    $this->add_component('result', $message, $message['id']);
   }
+
+  /*
+    Disclaimer: this is forcing client application to work with ID
+    Subscribe list should contain id -> name vocabulary
+    And collections should be ordered by name
+
+    To altering collection we should use id -> name -> collection path
+   */
 
   private function onAdded($message)
   {
     Client::Log('react')->addDebug("Added");
-    $this->add_component('collection', $message, $message->id);
+    $this->client->add_component('collection', $message['fields'], $message['id']);
   }
 
   private function onChanged($message)
   {
+    $this->echondie($message);
     Client::Log('react')->addDebug("Changed");
-    $this->add_component('collection', $message, $message->id);
+    $this->client->add_component('collection', $message['fields'], $message['id']);
   }
 
   private function onRemoved($message)
   {
     Client::Log('react')->addDebug("Removed");
-    $this->remove_component('collection', $message->id);
+    $this->client->remove_component('collection', $message['id']);
   }
 
   private function onCollection($message)
   {
-    $this->echondie($message);
+    switch ($message['msg'])
+    {
+    case 'added':
+      return $this->onAdded($message);
+    case 'changed':
+      return $this->onChanged($message);
+    case 'removed':
+      return $this->onRemoved($message);
+    default:
+      $this->echondie($message);
+    }
   }
 
   private function ignore($message)

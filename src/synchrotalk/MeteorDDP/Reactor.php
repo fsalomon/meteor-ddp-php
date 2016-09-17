@@ -22,7 +22,7 @@ class reactor extends protocol\reader
   private function get_commonent_id($type)
   {
     if (!isset($this->component_ids[$type]))
-      $this->component_ids[$type] = 0;
+      $this->component_ids[$type] = 1;
 
     return $this->component_ids[$type]++;
   }
