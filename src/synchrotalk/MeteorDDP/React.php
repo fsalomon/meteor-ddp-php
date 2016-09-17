@@ -88,11 +88,13 @@ class React
 
     $fields = &$collection['data'][$message['id']];
 
-    foreach (@$message['fields'] as $name => $value)
-      $fields[$name] = $value;
+    if (isset($message['fields']))
+      foreach (@$message['fields'] as $name => $value)
+        $fields[$name] = $value;
 
-    foreach (@$message['cleared'] as $name)
-      unset($fields[$name]);
+    if (isset($message['cleared']))
+      foreach (@$message['cleared'] as $name)
+        unset($fields[$name]);
   }
 
   private function onCollectionRemoved($message)

@@ -51,7 +51,7 @@ class Client extends Reactor
     $this->sock->close();
   }
 
-  public function get_result($id)
+  public function get_result($id = null)
   {
     $this->react();
 
