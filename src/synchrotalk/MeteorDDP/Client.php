@@ -23,9 +23,14 @@ class Client extends Reactor
 
   private $herald;
 
-  public function __construct($address = null)
+  public function __construct($address = null, $sock = null)
   {
-    $sock = new socket\WebSocketPipe();
+    if (is_null($sock))
+      if (strpos($address, "sockjs") !== false)
+        $sock = new socket\SockJSPipe();
+      else
+        $sock = new socket\WebSocketPipe();
+
     $parser = protocol\parser::ConstructDefaultParser();
 
     parent::__construct($sock, $parser);
