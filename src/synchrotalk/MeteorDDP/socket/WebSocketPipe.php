@@ -35,7 +35,9 @@ class WebSocketPipe extends AbstractSocketPipe
       $received =  $this->sock->receive(true);
     } catch (\Exception $e)
     {
-      die($this->IsClosed());
+      Client::Log('WebSocket')->addError('Exception', [$e]);
+      $this->Close();
+      return null;
     }
 
     if (!is_null($received))

@@ -57,9 +57,10 @@ class React
     return call_user_func_array($method, $arguments);
   }
 
-  private function onPing($pingId)
+  private function onPing($message)
   {
-    $this->client->pong($pingId);
+    $id = @$message['id'];
+    $this->client->pong($id);
   }
 
   private function onResult($message)

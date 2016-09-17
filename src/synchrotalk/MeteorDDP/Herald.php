@@ -110,4 +110,19 @@ class herald extends protocol\writer
 
     $this->Write('sub', $packet);
   }
+
+  public function ping()
+  {
+    throw new \Exception("DDP::Client i was lazy to implement ping, please do it for me");
+  }
+
+  public function pong($id = null)
+  {
+    $packet = null;
+
+    if (isset($id))
+      $packet = ['id' => $id];
+
+    $this->Write('pong', $packet);
+  }
 }
