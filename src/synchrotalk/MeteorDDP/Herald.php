@@ -4,20 +4,25 @@ namespace synchrotalk\MeteorDDP;
 class herald extends protocol\writer
 {
   private $reactor;
+  private $connection_established = false;
 
   public function set_reactor(&$reactor)
   {
     $this->reactor = &$reactor;
   }
 
-  /**
-   * This function creates a DDP connection on top of the WebSocket channel.
-   * This must be called before the client could invoke server's method.
-   * @param int $version
-   * @param array $supportedVersions
-   */
+  private function require_connect()
+  {
+    if ($this->connection_established)
+      return;
+
+    $this->connect();
+  }
+
   public function connect($version = 1, $supportedVersions = array(1))
   {
+    $this->connection_established = true;
+
     $packet =
     [
       'version' => $version,
@@ -27,13 +32,33 @@ class herald extends protocol\writer
     $this->Write('connect', $packet);
   }
 
-  /**
-   * Synchronous Meteor.call. Use DDPClient::getResult to poll the return value
-   * @param $method
-   * @param $args
-   */
-  public function call($method, $args, $cb = null)
+  public function __call($method, $args)
   {
+    $normalize_methods =
+    [
+      'call',
+      'subscribe',
+    ];
+
+    if (!in_array($method, $normalize_methods))
+      throw new \Exception("DDP::Client doesn't have '$method' method");
+
+    if (count($args) == 2)
+      $args = [$args[0], [], $args[1]];
+
+    return call_user_func_array([$this, $method], $args);
+  }
+
+
+  /**
+   * Meteor.call($method, [[$args], $cb])
+   * If cb is undefined - use getResult to receive answer
+   * If args undefined - only 2 params may be used
+   */
+  private function call($method, $args = [], $cb = null)
+  {
+    $this->require_connect();
+
     $component =
     [
       'cb' => $cb,
@@ -52,10 +77,15 @@ class herald extends protocol\writer
   }
 
   /**
-   * @param $name
-   * @param array $args
+   * Meteor.subscribe($collection, [[$args], $cb])
+   * If cb is undefined - use Client::getCollection
+   * If args undefined - only 2 params may be used
+   * If cb is defined - it will be invoked when collection ready
    */
-  public function subscribe($name, $args = array(), $cb = null) {
+  private function subscribe($name, $args = array(), $cb = null)
+  {
+    $this->require_connect();
+
     $sub =
     [
       'cb' => $cb,
