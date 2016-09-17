@@ -115,6 +115,9 @@ class React
 
     $collection = &$this->client->get_component('collection', $name);
     $collection['ready'] = true;
+
+    if (is_callable($sub['cb']))
+      $sub['cb']($name, $collection);
   }
 
   private function onCollection($message)
