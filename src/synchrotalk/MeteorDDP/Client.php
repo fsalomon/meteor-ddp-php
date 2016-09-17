@@ -15,7 +15,10 @@ class Client extends Reactor
       return self::$log[$system];
 
     if (is_null(self::$default_logger))
+    {
       self::$default_logger = new \Monolog\Logger("noname");
+      self::$default_logger->pushHandler(new \Monolog\Handler\NullHandler());
+    }
 
     return self::$log[$system]
       = self::$default_logger->withName("DDP_".$system);
