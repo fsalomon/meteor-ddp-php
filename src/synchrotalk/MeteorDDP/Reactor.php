@@ -27,9 +27,13 @@ class reactor extends protocol\reader
     return (string)$this->component_ids[$type]++;
   }
 
-  public function get_component($type, $id)
+  public function &get_component($type, $id)
   {
-    return @$this->reactor[$type][$id];
+    if (!isset($this->reactor[$type][$id]))
+      $this->reactor[$type][$id] = null;
+
+    $we_love_php = &$this->reactor[$type][$id];
+    return $we_love_php;
   }
 
   public function remove_component($type, $id)

@@ -11,6 +11,7 @@ class collection_packet extends abstract_packet
       'added',
       'changed',
       'removed',
+      'ready',
     ];
 
     return in_array(@$packed_data['msg'], $events);

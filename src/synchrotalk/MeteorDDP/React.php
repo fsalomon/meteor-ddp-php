@@ -65,7 +65,7 @@ class React
   private function onResult($message)
   {
     if ($message['msg'] == 'updated')
-      return; // ignore updated packets
+      return; // ignore updated wddx_packet_start()
 
     $component = $this->client->get_component('rpc', $message['id']);
     $this->client->remove_component('rpc', $message['id']);
@@ -76,43 +76,61 @@ class React
     $this->client->add_component('result', $message, $message['id']);
   }
 
-  /*
-    Disclaimer: this is forcing client application to work with ID
-    Subscribe list should contain id -> name vocabulary
-    And collections should be ordered by name
-
-    To altering collection we should use id -> name -> collection path
-   */
-
-  private function onAdded($message)
+  private function onCollectionAdded($message)
   {
-    Client::Log('react')->addDebug("Added");
-    $this->client->add_component('collection', $message['fields'], $message['id']);
+    // They are similar
+    $this->onCollectionChanged($message);
   }
 
-  private function onChanged($message)
+  private function onCollectionChanged($message)
   {
-    $this->echondie($message);
-    Client::Log('react')->addDebug("Changed");
-    $this->client->add_component('collection', $message['fields'], $message['id']);
+    $collection = &$this->client->get_component('collection', $message['collection']);
+
+    $fields = &$collection['data'][$message['id']];
+
+    foreach (@$message['fields'] as $name => $value)
+      $fields[$name] = $value;
+
+    foreach (@$message['cleared'] as $name)
+      unset($fields[$name]);
   }
 
-  private function onRemoved($message)
+  private function onCollectionRemoved($message)
   {
-    Client::Log('react')->addDebug("Removed");
-    $this->client->remove_component('collection', $message['id']);
+    $collection = &$this->client->get_component('collection', $message['collection']);
+
+    unset($collection['data'][$message['id']]);
+  }
+
+  private function onCollectionReady($message)
+  {
+    foreach ($message['subs'] as $id)
+      $this->SetCollectionReady($id);
+  }
+
+  private function SetCollectionReady($id)
+  {
+    $sub = $this->client->get_component('sub', $id);
+    $name = $sub['name'];
+
+    $collection = &$this->client->get_component('collection', $name);
+    $collection['ready'] = true;
   }
 
   private function onCollection($message)
   {
+    Client::Log('react')->addDebug($message['msg']);
+
     switch ($message['msg'])
     {
     case 'added':
-      return $this->onAdded($message);
+      return $this->onCollectionAdded($message);
     case 'changed':
-      return $this->onChanged($message);
+      return $this->onCollectionChanged($message);
     case 'removed':
-      return $this->onRemoved($message);
+      return $this->onCollectionRemoved($message);
+    case 'ready':
+      return $this->onCollectionReady($message);
     default:
       $this->echondie($message);
     }

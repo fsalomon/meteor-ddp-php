@@ -56,12 +56,20 @@ class herald extends protocol\writer
    * @param array $args
    */
   public function subscribe($name, $args = array(), $cb = null) {
-    $component =
+    $sub =
     [
       'cb' => $cb,
+      'name' => $name,
     ];
 
-    $id = $this->reactor->add_component('sub', $component);
+    $id = $this->reactor->add_component('sub', $sub);
+
+    $collection =
+    [
+      'ready' => false,
+      'data' => [],
+    ];
+    $this->reactor->add_component('collection', $collection, $name);
 
     $packet =
     [
