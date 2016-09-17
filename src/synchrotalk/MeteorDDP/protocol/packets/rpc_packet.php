@@ -5,7 +5,13 @@ class rpc_packet extends abstract_packet
 {
   public function Detect($packed_data)
   {
-    return @$packed_data['msg'] == 'result';
+    $answers =
+    [
+      'result',
+      'updated',
+    ];
+
+    return in_array(@$packed_data['msg'], $answers);
   }
 
   public function Encode($data=null)

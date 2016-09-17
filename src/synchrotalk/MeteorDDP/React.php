@@ -64,13 +64,16 @@ class React
 
   private function onResult($message)
   {
-    $component = $this->get_component('rpc', $message['id']);
-    $this->remove_component('rpc', $message['id']);
+    if ($message['msg'] == 'updated')
+      return; // ignore updated packets
+
+    $component = $this->client->get_component('rpc', $message['id']);
+    $this->client->remove_component('rpc', $message['id']);
 
     if (is_callable($component['cb']))
       return $component['cb']($message);
 
-    $this->add_component('result', $message, $message['id']);
+    $this->client->add_component('result', $message, $message['id']);
   }
 
   /*
