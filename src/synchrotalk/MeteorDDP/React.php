@@ -74,7 +74,7 @@ class React
     if (is_callable($component['cb']))
       return $component['cb']($message);
 
-    $this->client->add_component('result', $message, $message['id']);
+    $this->client->add_component('result', $message['result'], $message['id']);
   }
 
   private function onCollectionAdded($message)
