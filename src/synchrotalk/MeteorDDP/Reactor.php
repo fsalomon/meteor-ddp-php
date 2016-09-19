@@ -48,4 +48,14 @@ class reactor extends protocol\reader
 
     unset($this->reactor[$type][$id]);
   }
+
+  public function reactor_checkpoint()
+  {
+    return $this->reactor;
+  }
+
+  public function reactor_restore($checkpoint)
+  {
+    $this->reactor = $checkpoint;
+  }
 }
