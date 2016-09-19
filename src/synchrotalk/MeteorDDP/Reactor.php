@@ -4,7 +4,6 @@ namespace synchrotalk\MeteorDDP;
 class reactor extends protocol\reader
 {
   protected $reactor = [];
-  private $component_ids = [];
 
   public function add_component($type, $component, $id = null)
   {
@@ -21,10 +20,16 @@ class reactor extends protocol\reader
 
   private function get_commonent_id($type)
   {
-    if (!isset($this->component_ids[$type]))
-      $this->component_ids[$type] = 1;
+    $last_id = $this->get_component('component_ids', $type);
 
-    return (string)$this->component_ids[$type]++;
+    if ($last_id === null)
+      $last_id = 0;
+
+    $last_id++;
+
+    $this->add_component('component_ids', $last_id, $type);
+
+    return (string)$last_id;
   }
 
   public function &get_component($type, $id)
