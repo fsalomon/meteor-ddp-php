@@ -74,6 +74,8 @@ class herald extends protocol\writer
     ];
 
     $this->Write('rpc', $packet);
+
+    return $id;
   }
 
   /**
@@ -109,6 +111,8 @@ class herald extends protocol\writer
     ];
 
     $this->Write('sub', $packet);
+
+    return $id;
   }
 
   public function ping()
