@@ -43,7 +43,7 @@ class herald extends protocol\writer
     if (!in_array($method, $normalize_methods))
       throw new \Exception("DDP::Client doesn't have '$method' method");
 
-    if (count($args) == 2)
+    if (count($args) == 2 && is_callable($args[1]))
       $args = [$args[0], [], $args[1]];
 
     return call_user_func_array([$this, $method], $args);
