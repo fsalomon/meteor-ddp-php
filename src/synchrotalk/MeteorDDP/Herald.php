@@ -99,6 +99,7 @@ class herald extends protocol\writer
     $collection =
     [
       'ready' => false,
+      'sub' => $id,
       'data' => [],
     ];
     $this->reactor->add_component('collection', $collection, $name);
