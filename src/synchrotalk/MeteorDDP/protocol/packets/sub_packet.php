@@ -17,7 +17,7 @@ class sub_packet extends abstract_packet
       "id" => $data['id'],
     ];
 
-    if (!empty($args))
+    if (!empty($data['args']))
       $packet['params'] = $data['args'];
 
     return $packet;
