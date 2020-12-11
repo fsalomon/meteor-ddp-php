@@ -1,9 +1,6 @@
 <?php
 namespace synchrotalk\MeteorDDP;
 
-require('vendor/autoload.php');
-require('socket/WebSocketPipe.php');
-
 class Client extends Reactor
 {
   public static $default_logger = null;
